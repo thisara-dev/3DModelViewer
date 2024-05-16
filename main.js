@@ -32,6 +32,8 @@ loader.load(
     }
 );
 
+// Add OrbitControls
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
 // Handle window resizing
 window.addEventListener('resize', function () {
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -43,8 +45,8 @@ window.addEventListener('resize', function () {
 function animate() {
     requestAnimationFrame(animate);
 
-    // Rotate the scene for a better view
-    scene.rotation.y += 0.01;
+    // Required if controls.enableDamping or controls.autoRotate are set to true
+    controls.update();
 
     renderer.render(scene, camera);
 }
