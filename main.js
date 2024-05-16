@@ -1,9 +1,5 @@
 // main.js
 
-// Import necessary Three.js classes
-import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js';
-
 // Create the scene
 const scene = new THREE.Scene();
 
@@ -22,9 +18,9 @@ light.position.set(5, 5, 5).normalize();
 scene.add(light);
 
 // Load a GLTF model
-const loader = new GLTFLoader();
+const loader = new THREE.GLTFLoader();
 loader.load(
-    'model/scene.gltf', // Replace with the path to your model
+    '\model\scene.gltf', // Replace with the path to your model
     function (gltf) {
         scene.add(gltf.scene);
         animate();
