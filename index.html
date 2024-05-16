@@ -75,15 +75,15 @@
 
       <!-- Models -->
       <a-assets>
-        <a-asset-item id="s-gltf" src="model//scene.gltf"></a-asset-item>
+        <a-asset-item id="s-gltf" src="model/scene.gltf"></a-asset-item>
       </a-assets>
       <a-entity id="model-parent" position="0 0 0" rotation="0 0 0">
-        <a-obj-model id="a-model"
-        gltf-model="#s-gltf"
+        <a-gltf-model id="a-model"
+          src="#s-gltf"
           position="0 0 0"
           scale="1 1 1"
           rotation="0 0 0" model-loader>
-        </a-obj-model>
+        </a-gltf-model>
       </a-entity>
     </a-scene>
   </body>
