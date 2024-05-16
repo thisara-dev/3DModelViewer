@@ -1,18 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three.js 3D Model Viewer</title>
-    <style>
-        body { margin: 0; }
-        canvas { display: block; }
-    </style>
-</head>
-<body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="main.js"></script>
-</body>
+<html>
+  <head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="https://aframe.io/releases/0.2.0/aframe.min.js"></script>
+    <script type="text/javascript">
+      // Load check
+      AFRAME.registerComponent('model-loader', {
+        init: function () {
+          this.el.addEventListener('model-loaded', function () {
+            console.log('Finish model load');
+            $("#loading").hide();
+          });
+        }
+      });
+
+      // drag logic
+      $(function(){
+        var kRotateSpeed = 0.27;
+
+        var clicking = false;
+        var currentRotation;
+        var clickPosX = 0;
+        var clickPosY = 0;
+        var rotation = { x: 0 , y: 0, z: 0 };
+
+        // can touch device?
+        var isTouch = ('ontouchstart' in window);
+
+        $('#a-scene').bind({
+          'touchstart mousedown': function(e) {
+            clicking = true;
+            rotation = $('#model-parent').attr("rotation");
+            clickPosX = (isTouch ? event.changedTouches[0].pageX : e.pageX);
+            clickPosY = (isTouch ? event.changedTouches[0].pageY : e.pageY);
+          },
+          'touchmove mousemove': function(e) {
+            if(clicking == false) return;
+            //e.preventDefault();
+            var x = (isTouch ? event.changedTouches[0].pageX : e.pageX) - clickPosX;
+            var y = (isTouch ? event.changedTouches[0].pageY : e.pageY) - clickPosY;
+            var rad = rotation.y * Math.PI / 180;
+
+            rotation.y = rotation.y + (x * kRotateSpeed);
+            rotation.x = rotation.x + (Math.cos(rad) * y * kRotateSpeed);
+            rotation.z = rotation.z + (Math.sin(rad) * y * kRotateSpeed);
+
+            $('#model-parent').attr(
+              "rotation",
+              rotation.x + " " + rotation.y  + " " + rotation.z
+            );
+            clickPosX = (isTouch ? event.changedTouches[0].pageX : e.pageX);
+            clickPosY = (isTouch ? event.changedTouches[0].pageY : e.pageY);
+          },
+          'touchend mouseup mouseout': function(e) {
+            clicking = false;
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="loading">loading...</div>
+    <a-scene id="a-scene" vr-mode-ui="enabled: false">
+      <!-- Skybox -->
+      <a-sky color="#9fbfff"></a-sky>
+
+      <!-- Camera -->
+      <a-entity camera position="0 2 4"></a-entity>
+
+      <!-- Lights -->
+      <a-entity light="type: ambient; color: #EEE"></a-entity>
+      <a-entity light="type: point; intensity: 0.35; distance: 50; decay: 2" position="0 10 0"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 0.4" position="-0.5 1 1"></a-entity>
+
+      <!-- Models -->
+      <a-assets>
+        <a-asset-item id="s-gltf" src="model/scene.gltf"></a-asset-item>
+      </a-assets>
+      <a-entity id="model-parent" position="0 0 0" rotation="0 0 0">
+        <a-obj-model id="a-model"
+          src="#s-obj" mtl="#s-mtl"
+          position="0 0 0"
+          scale="1 1 1"
+          rotation="0 0 0" model-loader>
+        </a-obj-model>
+      </a-entity>
+    </a-scene>
+  </body>
 </html>
