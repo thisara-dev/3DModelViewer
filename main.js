@@ -22,6 +22,8 @@ const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(5, 5, 5).normalize();
 scene.add(light);
 
+// Add OrbitControls
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
 // Load a GLTF model
 const loader = new THREE.GLTFLoader();
 loader.load(
@@ -38,8 +40,6 @@ loader.load(
   }
 );
 
-// Add OrbitControls
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
 // Handle window resizing
 window.addEventListener("resize", function () {
   renderer.setSize(window.innerWidth, window.innerHeight);
