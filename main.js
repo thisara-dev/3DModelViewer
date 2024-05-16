@@ -23,7 +23,8 @@ loader.load(
     'model//scene.gltf', // Replace with the path to your model
     function (gltf) {
         scene.add(gltf.scene);
-        animate();
+        model.scale.set(0.1, 0.1, 0.1); // Adjust the scaling factor as needed
+        //animate();
     },
     undefined,
     function (error) {
