@@ -24,7 +24,7 @@ loader.load(
     function (gltf) {
         scene.add(gltf.scene);
         model.scale.set(0.1, 0.1, 0.1); // Adjust the scaling factor as needed
-        //animate();
+        animate();
     },
     undefined,
     function (error) {
