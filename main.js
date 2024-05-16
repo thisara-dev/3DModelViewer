@@ -24,7 +24,7 @@ scene.add(light);
 // Load a GLTF model
 const loader = new GLTFLoader();
 loader.load(
-    'path/to/your/model.gltf', // Replace with the path to your model
+    'model/scene.gltf', // Replace with the path to your model
     function (gltf) {
         scene.add(gltf.scene);
         animate();
